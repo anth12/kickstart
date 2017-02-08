@@ -74,9 +74,24 @@ namespace Kickstart
             Console.WriteLine();
 
             // Hit the sites
-            var startTime = DateTime.Now;
-
             var results = RequestUrls(links);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("===============================");
+            Console.WriteLine("=== Finished ==================");
+            Console.WriteLine("===============================");
+            Console.ForegroundColor = ConsoleColor.White;
+            
+            Console.WriteLine();
+
+            var loadTimeOrderedResults = results.Values.OrderBy(r => r.LoadTime);
+
+            var fastest = loadTimeOrderedResults.First();
+            Console.WriteLine($"Fastest Load Time: [{fastest.LoadTime}] {fastest.Link}");
+
+            var slowest = loadTimeOrderedResults.Last();
+            Console.WriteLine($"Slowest Load Time: [{slowest.LoadTime}] {slowest.Link}");
+
         }
 
 
@@ -198,6 +213,7 @@ namespace Kickstart
                         var r = webClient.DownloadStringTaskAsync(link).Result;
                         result = new WarmupResult
                         {
+                            Link = link,
                             LoadTime = DateTime.Now - start,
                             ReponseCode = 200
                         };
@@ -207,6 +223,7 @@ namespace Kickstart
                         // TODO extract response code
                         result = new WarmupResult
                         {
+                            Link = link,
                             LoadTime = DateTime.Now - start,
                             ReponseCode = 404
                         };
@@ -227,6 +244,7 @@ namespace Kickstart
 
     public class WarmupResult
     {
+        public string Link { get; set; }
         public TimeSpan LoadTime { get; set; }
         public int ReponseCode { get; set; }
     }
