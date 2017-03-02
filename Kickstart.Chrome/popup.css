@@ -1,0 +1,40 @@
+﻿body {
+    font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+    font-size: 100%;
+    min-width: 250px;
+}
+
+div.error {
+    padding: 10px;
+    margin: 10px;
+    background: #e95e4f;
+    border: 1px solid #8b1d11;
+}
+
+ul.log {
+    margin: 10px;
+    list-style: none;
+    padding: 0;
+}
+    ul.log li {
+        padding: 10px;
+        margin: 0;
+        border-top: 1px solid #777;
+    }
+    ul.log li:first-of-type {
+        border-top: none;
+    }
+    ul.log li.error {
+        background: #e95e4f;
+    }
+    ul.log li.warn {
+        background: #f48024;
+    }
+    ul.log li.info {
+        background: #eff0f1;
+    }
+
+/* Utilities */
+.hidden {
+    display: none;
+}
