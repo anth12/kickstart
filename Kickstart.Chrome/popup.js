@@ -16,8 +16,11 @@ var app = {
     init: function(rootUrl) {
         this.rootUrl = rootUrl;
 
-        // Clear the log
+        // Reset the UI
+        app._resultsVisible = false;
         $('ul.log').html('');
+        $('progress').hide()
+        $('.results').hide();
 
         // Find the robots file
         app.getRobots(function(robotsFile) {
@@ -182,12 +185,62 @@ var app = {
         }
     },
 
+    _resultsVisible: true,
+
     renderResults: function(urls, results) {
-        if(urls.length == result.length){
+
+        if(urls.length == results.length){
             app.info("Finished executing all "+ urls.length + " urls");
+            $('progress').hide()
         }
 
-        
+        if(!app._resultsVisible){
+
+            $('progress').show()
+            $('.results').show();
+            app._resultsVisible = true;
+        }
+
+        // Calculate the statistics
+
+        var successes = 0;
+        var failures = 0;
+        var average = 0;
+        var min = results[0].time;
+        var max = results[0].time;
+
+        for(var index in results){
+            var result = results[index];
+
+            average += result.time;
+
+            if(result.time > max)
+                max = result.time;
+            
+            if(result.time < min)
+                min = result.time;
+
+            if(result.success)
+                successes++;
+            else
+                failures++;
+            
+        }
+
+        average = average / results.length;
+
+        // Render the results
+
+        $('progress').attr('value', results.length);
+        $('progress').attr('max', urls.length);
+
+        $('.results .successes span').html(successes);
+        $('.results .failures span').html(failures);
+
+        $('.results .min span').html(min);
+        $('.results .max span').html(max);
+
+        $('.results .average span').html(average);
     }
 
 }

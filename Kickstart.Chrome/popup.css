@@ -2,6 +2,7 @@
     font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
     font-size: 100%;
     min-width: 250px;
+    padding: 10px;
 }
 
 div.error {
@@ -12,7 +13,6 @@ div.error {
 }
 
 ul.log {
-    margin: 10px;
     list-style: none;
     padding: 0;
 }
@@ -33,6 +33,27 @@ ul.log {
     ul.log li.info {
         background: #eff0f1;
     }
+
+/* Resultes */
+.positive,
+.negative,
+.neutral{
+    float: left;
+    width: 50%;
+    padding: 6px 0;
+    text-align: center;
+    color: white;
+}
+.positive{
+    background: #4caf50;
+}
+.negative{
+    background: #f44336;
+}
+
+.neutral{
+    background: #ff9800;
+}
 
 /* Utilities */
 .hidden {
