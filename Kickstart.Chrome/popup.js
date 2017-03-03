@@ -21,6 +21,10 @@ var app = {
         $('ul.log').html('');
         $('progress').hide()
         $('.results').hide();
+        $('.confirmation').hide();
+
+        $('.confirmation .positive').on('click', app.confirmExecution);
+        $('.confirmation .negative').on('click', app.cancelExecution);
 
         // Find the robots file
         app.getRobots(function(robotsFile) {
@@ -41,17 +45,17 @@ var app = {
                 
                 app.info("Found " + sitemaps.length + " sitemap" + (sitemaps.length > 1 ? "s" : ""));
                 
-                var urls = [];
+                app.urls = [];
                 for(var index in sitemaps) {
                     var sitemap = sitemaps[index];
 
-                    app.parseSitemap(sitemap, urls);
+                    app.parseSitemap(sitemap, app.urls);
                 }
 
-                app.info("Found " + urls.length + " urls")
+                app.info("Found " + app.urls.length + " urls")
 
-                // Load the URLS
-                app.executeUrls(urls);
+                // Prompt the user for confirmation
+                $('.confirmation').show();
 
             });
         });
@@ -151,8 +155,20 @@ var app = {
         }
     },
 
-    executeUrls: function(urls) {
+    cancelExecution: function(event) {
 
+        window.close();
+    },
+
+    confirmExecution: function(event){
+
+        // Load the URLS
+        app.executeUrls(app.urls);
+    },
+
+    executeUrls: function(urls) {
+        $('.confirmation').hide();
+        
         var results = [];
 
         for(var index in urls) {
@@ -240,7 +256,7 @@ var app = {
         $('.results .min span').html(min);
         $('.results .max span').html(max);
 
-        $('.results .average span').html(average);
+        $('.results .average span').html(average.toFixed(0));
     }
 
 }
