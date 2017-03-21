@@ -14,21 +14,27 @@ namespace Kickstart
     {
         private static void Main(string[] args)
         {
-            MainAsync(args).Wait();
+            Console.WriteLine(string.Join(", ", args));
+
+            var arguments = Arguments.Parse(args.ToList());
+
+            if (arguments.Help)
+            {
+                Console.WriteLine();
+                return;
+            }
+            
+            MainAsync(arguments).Wait();
 
 #if DEBUG
             Console.ReadLine();
 #endif
         }
 
-        static async Task MainAsync(string[] args)
+        static async Task MainAsync(Arguments args)
         {
-            string url;
-            if (args.Any())
-            {
-                url = args.First();
-            }
-            else
+            var url = args.Url;
+            if (string.IsNullOrEmpty(url))
             {
                 Console.WriteLine("URL to Kickstart:");
                 url = Console.ReadLine();
@@ -40,6 +46,7 @@ namespace Kickstart
             {
                 Console.WriteLine("Invalid URL");
             }
+
             // TODO support entering a sitemap
             var baseUrl = uri.AbsoluteUri.EndsWith("/") ? uri.AbsoluteUri : uri.AbsoluteUri + "/";
 
@@ -62,15 +69,19 @@ namespace Kickstart
                 return;
             }
 
-            // Confirm
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(links.Count());
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine(" URL's will be executed. Are you sure? (y/n)");
-            if (Console.ReadKey().Key != ConsoleKey.Y)
+            if (!args.Force)
             {
-                return;
+                // Confirm
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write(links.Count());
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine(" URL's will be executed. Are you sure? (y/n)");
+                if (Console.ReadKey().Key != ConsoleKey.Y)
+                {
+                    return;
+                }
             }
+
             Console.WriteLine();
 
             // Hit the sites

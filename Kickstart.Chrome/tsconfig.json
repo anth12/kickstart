@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "module": "amd",
+        "lib": ["es5", "es2015.promise", "dom"],
+        "target": "es5",
+        "noImplicitAny": true,
+        "noImplicitThis": false,
+        "strictNullChecks": false,
+        "sourceMap": true,
+        "baseUrl": "../",
+        "typeRoots": [
+            "./scripts/typings"
+        ],
+        "forceConsistentCasingInFileNames": true,
+        "outDir": "bin"
+    },
+    "files": [
+        "./scripts/Log.ts",
+        "./scripts/Popup.ts"
+    ]
+}

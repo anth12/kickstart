@@ -5,6 +5,28 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kickstart", "Kickstart\Kickstart.csproj", "{F019D0D4-3D2F-4199-A7B0-18CBD670A183}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kickstart.Tests", "Kickstart.Tests\Kickstart.Tests.csproj", "{740815B2-69AB-4CA3-9D8D-C257D9606D53}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Kickstart.Chrome", "Kickstart.Chrome\", "{7E4E905A-3EE9-48B4-AA07-2269D64DCC7D}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_62393"
+		Debug.AspNetCompiler.PhysicalPath = "Kickstart.Chrome\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_62393\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_62393"
+		Release.AspNetCompiler.PhysicalPath = "Kickstart.Chrome\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_62393\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "62393"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +37,14 @@ Global
 		{F019D0D4-3D2F-4199-A7B0-18CBD670A183}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F019D0D4-3D2F-4199-A7B0-18CBD670A183}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F019D0D4-3D2F-4199-A7B0-18CBD670A183}.Release|Any CPU.Build.0 = Release|Any CPU
+		{740815B2-69AB-4CA3-9D8D-C257D9606D53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{740815B2-69AB-4CA3-9D8D-C257D9606D53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{740815B2-69AB-4CA3-9D8D-C257D9606D53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{740815B2-69AB-4CA3-9D8D-C257D9606D53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E4E905A-3EE9-48B4-AA07-2269D64DCC7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E4E905A-3EE9-48B4-AA07-2269D64DCC7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E4E905A-3EE9-48B4-AA07-2269D64DCC7D}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E4E905A-3EE9-48B4-AA07-2269D64DCC7D}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

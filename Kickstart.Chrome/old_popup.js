@@ -1,7 +1,32 @@
-﻿
+﻿/// <reference path="typings/chrome.d.ts"/>
+/// <reference path="typings/jQuery.d.ts"/>
+
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    var queryInfo = {
+        active: true,
+        currentWindow: true
+    };
+
+    // Find the current active tab
+    chrome.tabs.query(queryInfo, function (tabs: chrome.tabs.Tab[]) {
+        
+        // Parse then root URL
+        var rootUrl = tabs[0].url || "";
+        rootUrl = rootUrl.match(/^(?:https?:)?(?:\/\/)?(?:[^@\n]+@)?([^\/\n\?\#]+)/)[0];
+
+        // Start the main app
+        app.init(rootUrl);
+    });
+
+
+});
+
 var app = {
     
-    rootUrl: null,
+    /*rootUrl: null,
+    urls: [],
 
     info: function (message) { this._writeLog(message, 'info'); },
     warn: function (message) { this._writeLog(message, 'warn'); },
@@ -11,20 +36,20 @@ var app = {
         $('ul.log').append('<li class="' + type + '">' +
                                 message +
                             '</li>');
-    },
+    },*/
 
     init: function(rootUrl) {
         this.rootUrl = rootUrl;
 
         // Reset the UI
-        app._resultsVisible = false;
-        $('ul.log').html('');
-        $('progress').hide()
-        $('.results').hide();
-        $('.confirmation').hide();
+        // app._resultsVisible = false;
+        // $('ul.log').html('');
+        // $('progress').hide()
+        // $('.results').hide();
+        // $('.confirmation').hide();
 
-        $('.confirmation .positive').on('click', app.confirmExecution);
-        $('.confirmation .negative').on('click', app.cancelExecution);
+        // $('.confirmation .positive').on('click', app.confirmExecution);
+        // $('.confirmation .negative').on('click', app.cancelExecution);
 
         // Find the robots file
         app.getRobots(function(robotsFile) {
@@ -76,7 +101,7 @@ var app = {
 
     getSitemapUrls: function(robots) {
 
-        var sitemaps = [];
+        var sitemaps = String[];
 
         if (robots != null && robots !== '') {
             
@@ -109,7 +134,7 @@ var app = {
 
     loadSitemaps: function(sitemaps, callback) {
 
-        var promises = [];
+        var promises = Promise[];
 
         for (var index in sitemaps) {
             var sitemap = sitemaps[index];
