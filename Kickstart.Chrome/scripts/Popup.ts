@@ -11,9 +11,10 @@ namespace Kickstart {
 
     export class Popup {
 
+        private urls: Array<string>;
+        private results: Array<KickResult>;
         private resultsVisible: boolean;
         private rootUrl: string;
-        private urls: Array<string>;
 
         constructor(){
             $('.confirmation .positive').on('click', event => this.ConfirmExecution(event));
@@ -23,6 +24,9 @@ namespace Kickstart {
         public Run(rootUrl: string): void{
 
             this.rootUrl = rootUrl;
+
+            this.urls = new Array<string>();
+            this.results = new Array<KickResult>();
 
             this.resultsVisible = false;
             Log.Clear();
@@ -69,7 +73,7 @@ namespace Kickstart {
         
         private ConfirmExecution(event: JQueryEventObject) {
             // Load the URLS
-            this.ExecuteUrls(this.urls);
+            this.ExecuteUrls();
         }
 
         private CancelExecution(event: JQueryEventObject) {
@@ -104,7 +108,7 @@ namespace Kickstart {
                         
                         // TODO: better URL formatting
                         sitemaps.push(
-                            sitemap.indexOf('http') == 1
+                            sitemap.indexOf('http') == 0
                             ? sitemap
                             : this.rootUrl + sitemap
                         );
@@ -170,44 +174,42 @@ namespace Kickstart {
             }
         }
 
-        private ExecuteUrls (urls: Array<string>) {
+        private ExecuteUrls () {
             $('.confirmation').hide();
             
-            let results = new Array<KickResult>();
-
-            for(let url of urls) {
+            for(var url of this.urls) {
 
                 // Time the request
-                var start = new Date().getTime();
+                let start = new Date().getTime();
 
                 fetch(url).then(response => {
                     // Success
-                    results.push(new KickResult(
+                    this.results.push(new KickResult(
                         true,
                         url,
                         new Date().getTime() - start
                     ));
 
-                    this.RenderResults(urls, results);
+                    this.RenderResults();
 
                 }, response => {
                     // Fail
-                    results.push(new KickResult(
+                    this.results.push(new KickResult(
                         false,
                         url,
                         new Date().getTime() - start
                     ));
 
-                    this.RenderResults(urls, results);
+                    this.RenderResults();
                 });
 
             }
         }
 
-        public RenderResults (urls: Array<string>, results: Array<KickResult>) {
+        public RenderResults () {
 
-            if(urls.length == results.length){
-                Log.Info("Finished executing all "+ urls.length + " urls");
+            if(this.urls.length == this.results.length){
+                Log.Info("Finished executing all "+ this.urls.length + " urls");
                 $('progress').hide()
             }
 
@@ -220,42 +222,43 @@ namespace Kickstart {
 
             // Calculate the statistics
 
-            var successes = 0;
-            var failures = 0;
-            var average = 0;
-            var min = results[0].Time;
-            var max = results[0].Time;
+            let successes = 0;
+            let failures = 0;
+            let average = 0;
+            let min = this.results[0];
+            let max = this.results[0];
 
-            for(var index in results){
-                var result = results[index];
+            for(let result of this.results) {
 
                 average += result.Time;
 
-                if(result.Time > max)
-                    max = result.Time;
+                if(result.Time > max.Time)
+                    max = result;
                 
-                if(result.Time < min)
-                    min = result.Time;
+                if(result.Time < min.Time)
+                    min = result;
 
                 if(result.Success)
                     successes++;
                 else
-                    failures++;
-            
+                    failures++;            
             }
 
-            average = average / results.length;
+            average = average / this.results.length;
 
             // Render the results
 
-            $('progress').attr('value', results.length);
-            $('progress').attr('max', urls.length);
+            $('progress').attr('value', this.results.length);
+            $('progress').attr('max', this.urls.length);
 
             $('.results .successes span').html(successes.toString());
             $('.results .failures span').html(failures.toString());
 
-            $('.results .min span').html(min.toString());
-            $('.results .max span').html(max.toString());
+            $('.results .min .time').html(min.Time.toString());
+            $('.results .min').attr('title', min.Url.toString());
+
+            $('.results .max .time').html(max.Time.toString());
+            $('.results .max').attr('title', max.Url.toString());
 
             $('.results .average span').html(average.toFixed(0));
         }

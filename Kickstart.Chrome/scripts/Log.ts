@@ -2,12 +2,8 @@
 
 class Log {
 
-    public static Clear() {
-        $('ul.log').slideUp("fast", function(){
-            $('ul.log')
-                .html('')
-                .slideDown();
-        });
+    public static Clear () {
+        $('ul.log').html('');
     }
 
     public static Info (message: string) { 
@@ -23,8 +19,11 @@ class Log {
     }
 
     private static WriteLog(message: string, type: string): void{
-        $('ul.log').append(`<li class="${type}">
-                                ${message}
-                            </li>`);
+
+        setTimeout(()=>{
+            $('ul.log').append(`<li class="${type}">
+                                    ${message}
+                                </li>`);
+        }, 50);
     }
 }

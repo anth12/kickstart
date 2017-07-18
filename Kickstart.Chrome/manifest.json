@@ -1,7 +1,7 @@
 {
   "name": "Kickstart",
   "description": "Invokes all website pages found in the site map",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "permissions": [
     "activeTab"
   ],
